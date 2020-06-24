@@ -6,16 +6,22 @@
 /*   By: sselusa <sselusa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 10:19:36 by sselusa           #+#    #+#             */
-/*   Updated: 2020/06/24 22:43:14 by sselusa          ###   ########.fr       */
+/*   Updated: 2020/06/25 00:18:51 by sselusa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dasm.h"
 
-static unsigned int		reverse4(unsigned int x)
+unsigned int			reverse4(unsigned int x)
 {
     x = (x & 0x00FF00FF) <<  8 | (x & 0xFF00FF00) >>  8;
     x = (x & 0x0000FFFF) << 16 | (x & 0xFFFF0000) >> 16;
+    return (x);
+}
+
+unsigned int			reverse2(unsigned int x)
+{
+    x = (x & 0x00FF00FF) <<  8 | (x & 0xFF00FF00) >>  8;
     return (x);
 }
 
@@ -58,6 +64,7 @@ static void				write_header(t_parser *p)
 	ft_putstr_fd("\t\"", p->fd_output);
 	ft_putstr_fd(p->header.comment, p->fd_output);
 	ft_putendl_fd("\"", p->fd_output);
+	ft_putchar_fd('\n', p->fd_output);
 }
 
 static void				parser_debug(t_parser *p)
@@ -90,6 +97,7 @@ int						parse(char *filename)
 	get_header(&p);
 	parser_debug(&p);
 	write_header(&p);
+	prog(&p);
 	close(p.fd_input);
 	close(p.fd_output);
 	free(p.output_filename);

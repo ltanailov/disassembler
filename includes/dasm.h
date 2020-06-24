@@ -6,7 +6,7 @@
 /*   By: sselusa <sselusa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 09:51:52 by sselusa           #+#    #+#             */
-/*   Updated: 2020/06/24 22:05:24 by sselusa          ###   ########.fr       */
+/*   Updated: 2020/06/25 00:17:43 by sselusa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 # include "op.h"
 
 # define DIV_SIZE 4
-
-int						parse(char *filename);
 
 /*
 **	Структура t_op (операция):
@@ -56,5 +54,12 @@ typedef struct			s_parser
 	header_t			header;
 	mode_t				openmode;
 }						t_parser;
+
+unsigned int			reverse4(unsigned int x);
+unsigned int			reverse2(unsigned int x);
+int						parse(char *filename);
+void					prog(t_parser *p);
+
+t_op					op_tab[17];
 
 #endif
