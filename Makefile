@@ -6,7 +6,7 @@
 #    By: sselusa <sselusa@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/17 09:39:40 by sselusa           #+#    #+#              #
-#    Updated: 2020/06/17 11:18:38 by sselusa          ###   ########.fr        #
+#    Updated: 2020/06/24 22:37:22 by sselusa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ LFT_DIR	=		libft
 LHS_DIR	=		$(LFT_DIR)/includes
 
 # ------------  SOURCE FILES  ------------------------------------------------ #
-SRC_FLS	=       main.c parser.c
+SRC_FLS	=       main.c parser.c op.c
 
 # ------------  FILEPATHS  --------------------------------------------------- #
 SRCS	=		$(addprefix $(SRC_DIR)/, $(SRC_FLS))
@@ -41,7 +41,7 @@ DFLGS	=		-MMD -MP
 DEBUG	=		-g -pg -fsanitize=address
 
 # ------------  RULES  ------------------------------------------------------- #
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re purge
 
 all: $(NAME)
 
@@ -57,6 +57,9 @@ $(OBJ_DIR):
 
 $(NAME): $(LFT_DIR)/$(LFT) $(OBJS)
 	$(CC) -o $(NAME) $(OBJS) $(LFLGS)
+
+purge:
+	$(RM) *.test
 
 clean:
 	$(MAKE) -C $(LFT_DIR) clean

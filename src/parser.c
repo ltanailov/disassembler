@@ -6,7 +6,7 @@
 /*   By: sselusa <sselusa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 10:19:36 by sselusa           #+#    #+#             */
-/*   Updated: 2020/06/17 12:45:38 by sselusa          ###   ########.fr       */
+/*   Updated: 2020/06/24 22:43:14 by sselusa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static unsigned int		reverse4(unsigned int x)
 {
     x = (x & 0x00FF00FF) <<  8 | (x & 0xFF00FF00) >>  8;
     x = (x & 0x0000FFFF) << 16 | (x & 0xFFFF0000) >> 16;
-    return x;
+    return (x);
 }
 
 static char				*get_output(char *filename)
@@ -34,100 +34,64 @@ static char				*get_output(char *filename)
 	return (output);
 }
 
-static void				get_magic(int fd)
+static void				get_header(t_parser *p)
 {
-	void				*mem;
-	unsigned int		magic;
-
-	mem = ft_memalloc(sizeof(unsigned int));
-	read(fd, mem, sizeof(unsigned int));
-	magic = reverse4(*(unsigned int*)mem);
-	free(mem);
-	if (magic == COREWAR_EXEC_MAGIC)
-		ft_printf("Magic\tOK\t%#x\n", magic);
-	else
-		ft_printf("Magic\tKO\t%#x\t(%#x)\n", magic, COREWAR_EXEC_MAGIC);
+	read(p->fd_input, &(p->header.magic), sizeof(unsigned int));
+	p->header.magic = reverse4(p->header.magic);
+	read(p->fd_input, p->header.prog_name, PROG_NAME_LENGTH);
+	p->header.prog_name[PROG_NAME_LENGTH] = '\0';
+	lseek(p->fd_input, DIV_SIZE, SEEK_CUR);
+	read(p->fd_input, &(p->header.prog_size), sizeof(unsigned int));
+	p->header.prog_size = reverse4(p->header.prog_size);
+	read(p->fd_input, p->header.comment, COMMENT_LENGTH);
+	p->header.comment[COMMENT_LENGTH] = '\0';
+	lseek(p->fd_input, DIV_SIZE, SEEK_CUR);
 }
 
-static void				get_name(int fd, int wr)
+static void				write_header(t_parser *p)
 {
-	void				*mem;
-	char				*name;
-
-	mem = ft_memalloc(PROG_NAME_LENGTH);
-	read(fd, mem, PROG_NAME_LENGTH);
-	name = (char*)mem;
-	ft_printf("Name\tOK\t%s\n", name);
-	ft_putstr_fd(NAME_CMD_STRING, wr);
-	ft_putstr_fd("\t\"", wr);
-	ft_putstr_fd(name, wr);
-	ft_putendl_fd("\"", wr);
-	free(mem);
+	ft_putstr_fd(NAME_CMD_STRING, p->fd_output);
+	ft_putstr_fd("\t\"", p->fd_output);
+	ft_putstr_fd(p->header.prog_name, p->fd_output);
+	ft_putendl_fd("\"", p->fd_output);
+	ft_putstr_fd(COMMENT_CMD_STRING, p->fd_output);
+	ft_putstr_fd("\t\"", p->fd_output);
+	ft_putstr_fd(p->header.comment, p->fd_output);
+	ft_putendl_fd("\"", p->fd_output);
 }
 
-static void				skip_null(int fd)
+static void				parser_debug(t_parser *p)
 {
-	void				*mem;
-
-	mem = ft_memalloc(sizeof(unsigned int));
-	read(fd, mem, 4);
-	free(mem);
-}
-
-static void				get_size(int fd)
-{
-	void				*mem;
-	size_t				size;
-
-	mem = ft_memalloc(sizeof(unsigned int));
-	read(fd, mem, sizeof(unsigned int));
-	size = reverse4(*(unsigned int*)mem);
-	free(mem);
-	if (size <= CHAMP_MAX_SIZE)
-		ft_printf("Size\tOK\t%zu\n", size);
-	else
-		ft_printf("Size\tKO\t%zu\t(MAX = %zu)\n", size, CHAMP_MAX_SIZE);
-}
-
-static void				get_comment(int fd, int wr)
-{
-	void				*mem;
-	char				*comment;
-
-	mem = ft_memalloc(COMMENT_LENGTH);
-	read(fd, mem, COMMENT_LENGTH);
-	comment = (char*)mem;
-	ft_printf("Comment\tOK\t%s\n", comment);
-	ft_putstr_fd(COMMENT_CMD_STRING, wr);
-	ft_putstr_fd("\t\"", wr);
-	ft_putstr_fd(comment, wr);
-	ft_putendl_fd("\"", wr);
-	free(comment);
+	ft_printf("Input file descriptor: %d\n", p->fd_input);
+	ft_printf("Input filename: %s\n", p->input_filename);
+	ft_printf("Output file descriptor: %d\n", p->fd_output);
+	ft_printf("Output filename: %s\n", p->output_filename);
+	ft_printf("Open mode: %#x\n", p->openmode);
+	ft_printf("Header:\n\tMagic number: %#x\n", p->header.magic);
+	ft_printf("\tProgram name: %s\n", p->header.prog_name);
+	ft_printf("\tProgram size: %u\n", p->header.prog_size);
+	ft_printf("\tComment: %s\n", p->header.comment);
 }
 
 int						parse(char *filename)
 {
-	int					fd_rd;
-	int					fd_wr;
-	char				*output;
-	mode_t				mode;
+	t_parser			p;
 
-	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
-	fd_rd = open(filename, O_RDONLY);
-	if (fd_rd == -1)
+	ft_bzero(&p, sizeof(t_parser));
+	p.input_filename = filename;
+	p.openmode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+	p.fd_input = open(p.input_filename, O_RDONLY);
+	if (p.fd_input == -1)
 		return (0);
-	if (!(output = get_output(filename)))
+	if (!(p.output_filename = get_output(p.input_filename)))
 		return (0);
-	fd_wr = open(output, O_WRONLY | O_CREAT | O_TRUNC, mode);
-	free(output);
-	get_magic(fd_rd);
-	get_name(fd_rd, fd_wr);
-	skip_null(fd_rd);
-	get_size(fd_rd);
-	get_comment(fd_rd, fd_wr);
-	// PARSE
-	skip_null(fd_rd);
-	close(fd_rd);
-	close(fd_wr);
+	p.fd_output = open(p.output_filename,
+		O_WRONLY | O_CREAT | O_TRUNC, p.openmode);
+	get_header(&p);
+	parser_debug(&p);
+	write_header(&p);
+	close(p.fd_input);
+	close(p.fd_output);
+	free(p.output_filename);
 	return (1);
 }
