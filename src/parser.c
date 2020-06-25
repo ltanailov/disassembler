@@ -6,7 +6,7 @@
 /*   By: sselusa <sselusa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 10:19:36 by sselusa           #+#    #+#             */
-/*   Updated: 2020/06/25 00:18:51 by sselusa          ###   ########.fr       */
+/*   Updated: 2020/06/25 12:40:29 by sselusa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,6 @@ unsigned int			reverse4(unsigned int x)
 {
     x = (x & 0x00FF00FF) <<  8 | (x & 0xFF00FF00) >>  8;
     x = (x & 0x0000FFFF) << 16 | (x & 0xFFFF0000) >> 16;
-    return (x);
-}
-
-unsigned int			reverse2(unsigned int x)
-{
-    x = (x & 0x00FF00FF) <<  8 | (x & 0xFF00FF00) >>  8;
     return (x);
 }
 

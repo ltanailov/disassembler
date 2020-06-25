@@ -6,7 +6,7 @@
 /*   By: sselusa <sselusa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 09:51:52 by sselusa           #+#    #+#             */
-/*   Updated: 2020/06/25 00:17:43 by sselusa          ###   ########.fr       */
+/*   Updated: 2020/06/25 12:58:46 by sselusa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,22 @@
 # include "op.h"
 
 # define DIV_SIZE 4
+# define REGISTRY_CHAR 'r'
+
+typedef struct			s_op
+{
+	const char			*name;
+	unsigned int		argc;
+	t_arg_type			argtype[3];
+	unsigned char		code;
+	unsigned int		cycles;
+	const char			*comment;
+	unsigned char		typecode;
+	unsigned char		tdirsize;
+}						t_op;
 
 /*
-**	Структура t_op (операция):
+**	Таблица операций op_tab[ ]:
 **		name		- имя
 **		argc		- количество аргументов
 **		argtype		- типы аргументов
@@ -27,23 +40,11 @@
 **		cycles		- циклы до исполнения
 **		comment		- описание
 **		typecode	- флаг необходимости задания типов аргументов
-**						(0 - нет необходимости)
-**						(1 - необходимо задать)
+**						(0 - нет необходимости / 1 - необходимо задать)
 **		tdirsize	- флаг размера T_DIR
-**						(0 - 4 байта)
-**						(1 - 2 байта)
+**						(0 - 4 байта / 1 - 2 байта)
 */
-typedef struct          s_op
-{
-	const char          *name;
-	int                 argc;
-	t_arg_type			argtype[3];
-	unsigned char       code;
-	unsigned int		cycles;
-	const char			*comment;
-	unsigned char		typecode;
-	unsigned char		tdirsize;
-}                       t_op;
+t_op					op_tab[17];
 
 typedef struct			s_parser
 {
@@ -55,11 +56,21 @@ typedef struct			s_parser
 	mode_t				openmode;
 }						t_parser;
 
+typedef struct			s_command
+{
+	unsigned char		code;
+	const char			*name;
+	unsigned char		typecode;
+	unsigned int		tdirsize;
+	unsigned int		argc;
+	t_arg_type			argtype[3];
+	char				mark[3];
+	unsigned int		arg[3];
+	unsigned int		size;
+}						t_command;
+
 unsigned int			reverse4(unsigned int x);
-unsigned int			reverse2(unsigned int x);
 int						parse(char *filename);
 void					prog(t_parser *p);
-
-t_op					op_tab[17];
 
 #endif
