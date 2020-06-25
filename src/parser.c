@@ -6,7 +6,7 @@
 /*   By: sselusa <sselusa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 10:19:36 by sselusa           #+#    #+#             */
-/*   Updated: 2020/06/25 12:40:29 by sselusa          ###   ########.fr       */
+/*   Updated: 2020/06/25 13:14:52 by sselusa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,13 @@ static void				write_header(t_parser *p)
 
 static void				parser_debug(t_parser *p)
 {
-	ft_printf("Input file descriptor: %d\n", p->fd_input);
-	ft_printf("Input filename: %s\n", p->input_filename);
-	ft_printf("Output file descriptor: %d\n", p->fd_output);
-	ft_printf("Output filename: %s\n", p->output_filename);
-	ft_printf("Open mode: %#x\n", p->openmode);
-	ft_printf("Header:\n\tMagic number: %#x\n", p->header.magic);
+	ft_printf("IO:\n");
+	ft_printf("\tInput file descriptor: %d\n", p->fd_input);
+	ft_printf("\tInput filename: %s\n", p->input_filename);
+	ft_printf("\tOutput file descriptor: %d\n", p->fd_output);
+	ft_printf("\tOutput filename: %s\n", p->output_filename);
+	ft_printf("\tOpen mode: %#x\n", p->openmode);
+	ft_printf("\nHeader:\n\tMagic number: %#x\n", p->header.magic);
 	ft_printf("\tProgram name: %s\n", p->header.prog_name);
 	ft_printf("\tProgram size: %u\n", p->header.prog_size);
 	ft_printf("\tComment: %s\n", p->header.comment);

@@ -6,7 +6,7 @@
 /*   By: sselusa <sselusa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 22:51:40 by sselusa           #+#    #+#             */
-/*   Updated: 2020/06/25 13:03:43 by sselusa          ###   ########.fr       */
+/*   Updated: 2020/06/25 13:14:04 by sselusa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,18 +111,29 @@ static void				write_command(t_parser *p, t_command *c)
 {
 	unsigned int		argno;
 
+	ft_printf("\t%s ", c->name);
 	ft_putstr_fd(c->name, p->fd_output);
 	ft_putchar_fd(' ', p->fd_output);
 	argno = 0;
 	while (argno < c->argc)
 	{
 		if (c->mark[argno])
+		{
+			ft_printf("%c", c->mark[argno]);
 			ft_putchar_fd(c->mark[argno], p->fd_output);
-		ft_putnbr_fd((int)c->arg[argno], p->fd_output);
+		}
+		ft_putnbr_fd(c->arg[argno], p->fd_output);
+		ft_printf("%d", c->arg[argno]);
 		if (argno == (c->argc - 1))
+		{
 			ft_putchar_fd('\n', p->fd_output);
+			ft_printf("\n");
+		}
 		else
+		{
 			ft_putchar_fd(SEPARATOR_CHAR, p->fd_output);
+			ft_printf("%c", SEPARATOR_CHAR);
+		}
 		argno++;
 	}
 	
@@ -134,6 +145,7 @@ void					prog(t_parser *p)
 	unsigned int		pos;
 
 	pos = 0;
+	ft_printf("\nExec code:\n");
 	while (pos < p->header.prog_size)
 	{
 		get_command(p, &c);
