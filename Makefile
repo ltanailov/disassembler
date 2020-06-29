@@ -6,7 +6,7 @@
 #    By: sselusa <sselusa@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/17 09:39:40 by sselusa           #+#    #+#              #
-#    Updated: 2020/06/29 22:40:22 by sselusa          ###   ########.fr        #
+#    Updated: 2020/06/30 00:31:47 by sselusa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ LFT_DIR	=		libft
 LHS_DIR	=		$(LFT_DIR)/includes
 
 # ------------  SOURCE FILES  ------------------------------------------------ #
-SRC_FLS	=       main.c parser.c op.c
+SRC_FLS	=       main.c op.c parse.c header.c commands.c \
+				arguments.c bitmaps.c output.c
 
 # ------------  FILEPATHS  --------------------------------------------------- #
 SRCS	=		$(addprefix $(SRC_DIR)/, $(SRC_FLS))

@@ -6,7 +6,7 @@
 /*   By: sselusa <sselusa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 09:51:52 by sselusa           #+#    #+#             */
-/*   Updated: 2020/06/29 22:38:43 by sselusa          ###   ########.fr       */
+/*   Updated: 2020/06/30 00:35:39 by sselusa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 
 # include "libft.h"
 # include "op.h"
+# include <errno.h>
 
 # define DIV_SIZE 4
 # define REGISTRY_CHAR 'r'
+# define OUTPUT_EXTENSION ".test"
 
 typedef struct			s_op
 {
@@ -46,16 +48,6 @@ typedef struct			s_op
 */
 t_op					op_tab[17];
 
-typedef struct			s_parser
-{
-	int					fd_input;
-	char				*input_filename;
-	int					fd_output;
-	char				*output_filename;
-	header_t			header;
-	mode_t				openmode;
-}						t_parser;
-
 typedef struct			s_command
 {
 	unsigned char		code;
@@ -69,6 +61,32 @@ typedef struct			s_command
 	unsigned int		size;
 }						t_command;
 
-int						parse(char *filename);
+typedef struct			s_parser
+{
+	int					fd_input;
+	char				*input_filename;
+	int					fd_output;
+	char				*output_filename;
+	mode_t				openmode;
+	header_t			header;
+}						t_parser;
+
+
+void					error(char *msg, int code);
+void					skip_divider(t_parser *p);
+
+void					parse(char *filename);
+
+void					get_header(t_parser *p);
+void					get_commands(t_parser *p);
+void					get_arguments(t_parser *p, t_command *c);
+
+void					write_header(t_parser *p);
+void					write_command(t_parser *p, t_command *c);
+
+unsigned int			reverse2(unsigned int x);
+unsigned int			reverse4(unsigned int x);
+t_arg_type				check_argtype(unsigned int argno,
+							unsigned char typecode);
 
 #endif

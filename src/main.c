@@ -6,44 +6,39 @@
 /*   By: sselusa <sselusa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 09:51:53 by sselusa           #+#    #+#             */
-/*   Updated: 2020/06/24 22:04:43 by sselusa          ###   ########.fr       */
+/*   Updated: 2020/06/30 00:30:33 by sselusa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dasm.h"
 
-static int				error(char *msg)
+void					error(char *msg, int code)
 {
-	ft_putendl(msg);
-	return (1);
+	errno = code;
+	perror(msg);
+	exit(errno);
 }
 
-static void				usage(void)
+void					skip_divider(t_parser *p)
 {
-	ft_printf("Usage:\n\t./dasm [file.cor]\n");
+	if ((lseek(p->fd_input, DIV_SIZE, SEEK_CUR)) == -1)
+		error("Divider", errno);
 }
 
-static unsigned char	filecheck(char *filename)
+static void				fname_check(char *fname)
 {
-	int					fd;
-
-	if ((fd = open(filename, O_RDONLY)) == -1)
-		return (0);
-	close(fd);
-	if (!ft_strequ(ft_strrchr(filename, '.'), ".cor"))
-		return (0);
-	return (1);
+	if (!ft_strequ(ft_strrchr(fname, '.'), ".cor"))
+		error("Input file", EINVAL);
 }
 
 int						main(int ac, char **av)
 {
 	if (ac == 2)
 	{
-		if (!filecheck(av[1]))
-			return (error("Wrong binary!"));
-		else
-			parse(av[1]);
+		fname_check(av[1]);
+		parse(av[1]);
 	}
 	else
-		usage();
+		ft_printf("Usage:\n\t./dasm [file.cor]\n");
+	return (EXIT_SUCCESS);
 }
