@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sselusa <sselusa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: sselusa <sselusa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 10:19:36 by sselusa           #+#    #+#             */
-/*   Updated: 2020/06/25 13:14:52 by sselusa          ###   ########.fr       */
+/*   Updated: 2020/06/29 18:51:19 by sselusa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ unsigned int			reverse4(unsigned int x)
 {
     x = (x & 0x00FF00FF) <<  8 | (x & 0xFF00FF00) >>  8;
     x = (x & 0x0000FFFF) << 16 | (x & 0xFFFF0000) >> 16;
+    return (x);
+}
+
+unsigned int			reverse2(unsigned int x)
+{
+    x = (x & 0x00FF00FF) <<  8 | (x & 0xFF00FF00) >>  8;
     return (x);
 }
 

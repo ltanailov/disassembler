@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prog.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sselusa <sselusa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: sselusa <sselusa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/24 22:51:40 by sselusa           #+#    #+#             */
-/*   Updated: 2020/06/25 13:14:04 by sselusa          ###   ########.fr       */
+/*   Updated: 2020/06/29 19:26:02 by sselusa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,23 @@ static void				set_marks(t_command *c)
 	}
 }
 
+// static void				print_bytes(int num, unsigned int size)
+// {
+// 	unsigned int		pos;
+
+// 	pos = 0;
+// 	printf("BINARY: ");
+// 	while (pos < (size * 8))
+// 	{
+// 		if (num & (1 << ((size * 8) - pos)))
+// 			printf("1");
+// 		else
+// 			printf("0");
+// 		pos++;
+// 	}
+// 	printf("\n");
+// }
+
 static void				get_arguments(t_parser *p, t_command *c)
 {
 	unsigned char		argno;
@@ -72,16 +89,17 @@ static void				get_arguments(t_parser *p, t_command *c)
 		}
 		else if (c->argtype[argno] == T_DIR)
 		{
-			{
 			read(p->fd_input, &(c->arg[argno]), c->tdirsize);
 			c->size += c->tdirsize;
 			if (c->tdirsize == 4)
-				c->arg[argno] = reverse4(c->arg[argno]);
-			}
+				c->arg[argno] = (int)reverse4(c->arg[argno]);
+			else
+				c->arg[argno] = (short)reverse2(c->arg[argno]);
 		}
 		else if (c->argtype[argno] == T_IND)
 		{
 			read(p->fd_input,  &(c->arg[argno]), 2);
+			c->arg[argno] = reverse2(c->arg[argno]);
 			c->size += 2;
 		}
 		argno++;
