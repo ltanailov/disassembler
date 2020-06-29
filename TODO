@@ -1,5 +1,5 @@
-1) Check negative command arguments
-2) Check 3rd argument validity
+1) Check negative command arguments +
+2) Check 3rd argument validity +
 3) Check cor->s->cor chain workability
 4) Check leaks
 5) Check errors

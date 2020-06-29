@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dasm.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sselusa <sselusa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: sselusa <sselusa@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 09:51:52 by sselusa           #+#    #+#             */
-/*   Updated: 2020/06/29 19:04:12 by sselusa          ###   ########.fr       */
+/*   Updated: 2020/06/29 22:38:43 by sselusa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,6 @@ typedef struct			s_command
 	unsigned int		size;
 }						t_command;
 
-unsigned int			reverse4(unsigned int x);
-unsigned int			reverse2(unsigned int x);
 int						parse(char *filename);
-void					prog(t_parser *p);
 
 #endif
