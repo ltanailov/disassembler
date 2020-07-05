@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sselusa <sselusa@student.21-school.ru>     +#+  +:+       +#+         #
+#    By: sselusa <sselusa@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/17 09:39:40 by sselusa           #+#    #+#              #
-#    Updated: 2020/06/30 00:31:47 by sselusa          ###   ########.fr        #
+#    Updated: 2020/07/05 14:24:45 by sselusa          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ DFLGS	=		-MMD -MP
 DEBUG	=		-g -pg -fsanitize=address
 
 # ------------  RULES  ------------------------------------------------------- #
-.PHONY: all clean fclean re purge
+.PHONY: all clean fclean re
 
 all: $(NAME)
 
@@ -58,9 +58,6 @@ $(OBJ_DIR):
 
 $(NAME): $(LFT_DIR)/$(LFT) $(OBJS)
 	$(CC) -o $(NAME) $(OBJS) $(LFLGS)
-
-purge:
-	$(RM) *.test
 
 clean:
 	$(MAKE) -C $(LFT_DIR) clean

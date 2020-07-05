@@ -6,7 +6,7 @@
 /*   By: sselusa <sselusa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 09:51:52 by sselusa           #+#    #+#             */
-/*   Updated: 2020/07/05 14:22:30 by sselusa          ###   ########.fr       */
+/*   Updated: 2020/07/05 14:24:28 by sselusa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 # define DIV_SIZE 4
 # define REGISTRY_CHAR 'r'
-# define OUTPUT_EXTENSION ".test"
+# define OUTPUT_EXTENSION ".s"
 
 typedef struct			s_op
 {
