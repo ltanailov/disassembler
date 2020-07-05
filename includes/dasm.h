@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dasm.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sselusa <sselusa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: sselusa <sselusa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/17 09:51:52 by sselusa           #+#    #+#             */
-/*   Updated: 2020/06/30 00:35:39 by sselusa          ###   ########.fr       */
+/*   Updated: 2020/07/05 14:22:30 by sselusa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct			s_op
 **		tdirsize	- флаг размера T_DIR
 **						(0 - 4 байта / 1 - 2 байта)
 */
-t_op					op_tab[17];
+t_op					g_op_tab[17];
 
 typedef struct			s_command
 {
@@ -70,7 +70,6 @@ typedef struct			s_parser
 	mode_t				openmode;
 	header_t			header;
 }						t_parser;
-
 
 void					error(char *msg, int code);
 void					skip_divider(t_parser *p);

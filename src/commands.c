@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sselusa <sselusa@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: sselusa <sselusa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 00:02:27 by sselusa           #+#    #+#             */
-/*   Updated: 2020/06/30 00:30:20 by sselusa          ###   ########.fr       */
+/*   Updated: 2020/07/05 14:21:09 by sselusa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ static void				get_argtypes(t_command *c)
 	}
 	else
 	{
-		c->argtype[0] = op_tab[c->code - 1].argtype[0];
-		c->argtype[1] = op_tab[c->code - 1].argtype[1];
-		c->argtype[2] = op_tab[c->code - 1].argtype[2];
+		c->argtype[0] = g_op_tab[c->code - 1].argtype[0];
+		c->argtype[1] = g_op_tab[c->code - 1].argtype[1];
+		c->argtype[2] = g_op_tab[c->code - 1].argtype[2];
 	}
 }
 
@@ -48,16 +48,16 @@ static void				get_command(t_parser *p, t_command *c)
 	if ((read(p->fd_input, &(c->code), 1)) == -1)
 		error("Command", errno);
 	c->size += 1;
-	c->name = op_tab[c->code - 1].name;
+	c->name = g_op_tab[c->code - 1].name;
 	c->typecode = 0;
-	if (op_tab[c->code - 1].typecode)
+	if (g_op_tab[c->code - 1].typecode)
 	{
 		if ((read(p->fd_input, &(c->typecode), 1)) == -1)
 			error("Command", errno);
 		c->size += 1;
 	}
-	c->tdirsize = op_tab[c->code - 1].tdirsize ? 2 : 4;
-	c->argc = op_tab[c->code - 1].argc;
+	c->tdirsize = g_op_tab[c->code - 1].tdirsize ? 2 : 4;
+	c->argc = g_op_tab[c->code - 1].argc;
 	get_argtypes(c);
 	get_marks(c);
 	get_arguments(p, c);
